@@ -1,3 +1,4 @@
+using WebApplicationGalaxyDefender.Model;
 using WebApplicationGalaxyDefender.Repository;
 
 namespace WebApplicationGalaxyDefender.Service
@@ -11,9 +12,9 @@ namespace WebApplicationGalaxyDefender.Service
             _characterrepos = characterrepos;
         }
 
-        public void GetCharacters()
+        public List<Character> GetCharacters()
         {
-            _characterrepos.GetCharacters();
+            return _characterrepos.GetCharacters();
         }
     }
 }

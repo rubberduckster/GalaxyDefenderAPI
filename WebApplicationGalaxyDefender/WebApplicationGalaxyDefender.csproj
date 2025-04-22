@@ -12,7 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Model\" />
     <Folder Include="Resources\" />
     <Folder Include="Views\Shared\" />
   </ItemGroup>

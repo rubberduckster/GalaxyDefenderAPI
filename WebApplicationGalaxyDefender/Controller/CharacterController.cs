@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using WebApplicationGalaxyDefender.Model;
 using WebApplicationGalaxyDefender.Service;
 
 namespace WebApplicationGalaxyDefender.Controllers
@@ -19,11 +20,13 @@ namespace WebApplicationGalaxyDefender.Controllers
         //UpdateCharacter
         //DeleteCharacter
 
-        [HttpGet("get")]
-        public string Farewell()
+        [HttpGet]
+        public List<Character> CharactersGet()
         {
-            _characterService.GetCharacters();
-            return "Farewell";
+            return _characterService.GetCharacters();
         }
+
+        [HttpPost]
+
     }
 }
