@@ -16,5 +16,10 @@ namespace WebApplicationGalaxyDefender.Service
         {
             return _characterrepos.GetCharacters();
         }
+
+        public int PostCharacter()
+        {
+            return _characterrepos.CreateCharacter();
+        }
     }
 }

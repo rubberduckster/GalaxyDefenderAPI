@@ -14,19 +14,22 @@ namespace WebApplicationGalaxyDefender.Controllers
         public CharacterController(CharacterService characterService) {
             _characterService = characterService;
         }
-        //GetCharacter
         //GetCharacterById
-        //CreateCharacter
         //UpdateCharacter
         //DeleteCharacter
 
         [HttpGet]
+        //Get all characters
         public List<Character> CharactersGet()
         {
             return _characterService.GetCharacters();
         }
 
         [HttpPost]
-
+        //Make a Character
+        public string CharactersPost()
+        {
+            return _characterService.PostCharacter();
+        }
     }
 }
