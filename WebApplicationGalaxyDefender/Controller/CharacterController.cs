@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WebApplicationGalaxyDefender.Model;
 using WebApplicationGalaxyDefender.Service;
+using WebApplicationGalaxyDefender.DataModels;
+using Newtonsoft.Json;
 
 namespace WebApplicationGalaxyDefender.Controllers
 {
@@ -16,7 +18,6 @@ namespace WebApplicationGalaxyDefender.Controllers
         }
         //GetCharacterById
         //UpdateCharacter
-        //DeleteCharacter
 
         [HttpGet]
         //Get all characters
@@ -27,9 +28,22 @@ namespace WebApplicationGalaxyDefender.Controllers
 
         [HttpPost]
         //Make a Character
-        public string CharactersPost()
+        public async Task<Character> CharactersPost()
         {
-            return _characterService.PostCharacter();
+            var reader = new StreamReader(Request.Body);
+            var body = await reader.ReadToEndAsync();
+
+            var model = JsonConvert.DeserializeObject<CharacterData>(body);
+
+            return _characterService.PostCharacter(model);
+        }
+
+        [HttpDelete("{id}")]
+        public object DeleteCharacter([FromRoute] int id)
+        {
+            _characterService.DeleteCharacter(id);
+
+            return Results.Ok();
         }
     }
 }

@@ -14,7 +14,7 @@
         public string TalentName { get; set; }
         public string TalentDescription { get; set; }
         public string CharacterIMG { get; set; }
-        public int Galaxy_Id { get; set; }
+        public int GalaxyId { get; set; }
 
 
         public Character(int id, string gender, string name, string description, string unitType, int hp, int def, int dmg, int range, string talentName, string talentDescription, string characterImg, int galaxyId)
@@ -31,7 +31,7 @@
             TalentName = talentName;
             TalentDescription = talentDescription;
             CharacterIMG = characterImg;
-            Galaxy_Id = galaxyId;
+            GalaxyId = galaxyId;
         }
     }
 }

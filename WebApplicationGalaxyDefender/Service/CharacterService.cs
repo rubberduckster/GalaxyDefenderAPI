@@ -1,5 +1,6 @@
 using WebApplicationGalaxyDefender.Model;
 using WebApplicationGalaxyDefender.Repository;
+using WebApplicationGalaxyDefender.DataModels;
 
 namespace WebApplicationGalaxyDefender.Service
 {
@@ -17,9 +18,14 @@ namespace WebApplicationGalaxyDefender.Service
             return _characterrepos.GetCharacters();
         }
 
-        public int PostCharacter()
+        public Character PostCharacter(CharacterData data)
         {
-            return _characterrepos.CreateCharacter();
+            return _characterrepos.CreateCharacter(data);
+        }
+
+        public void DeleteCharacter(int characterId) 
+        {
+            _characterrepos.DeleteCharacter(characterId);
         }
     }
 }

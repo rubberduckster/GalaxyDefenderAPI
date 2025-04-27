@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Razor.Language.Extensions;
 using Microsoft.Data.SqlClient;
 using System.Data;
+using WebApplicationGalaxyDefender.DataModels;
 using WebApplicationGalaxyDefender.Model;
 
 namespace WebApplicationGalaxyDefender.Repository
@@ -50,69 +51,34 @@ namespace WebApplicationGalaxyDefender.Repository
             return characters;
         }
 
-        public int CreateCharacter(Character charcter)
+        
+        public Character CreateCharacter(CharacterData data)
         {
             connection.Open();
 
-            string genderInput = "M";
-            string nameInput = "M";
-            string descriptionInput = "M";
-            string unitTypeInput = "M";
-            int hpInput = 1;
-            int defInput = 1;                
-            int dmgInput = 1;
-            int rangeInput = 1;
-            string talentNameInput = "M";
-            string talentDescriptionInput = "M";
-            string characterImgInput = "M";
-            int galaxyIdInput = 1;
-
             string sqlString = "INSERT INTO Characters ([Gender], [Name], [Description], [UnitType], [HP], [DEF], [DMG], [Range], [TalentName], [TalentDescription], [CharacterIMG], [GalaxyId]) " +
-                $"VALUES ('{genderInput}', '{nameInput}', '{descriptionInput}', '{unitTypeInput}', {hpInput}, {defInput}, {dmgInput}, {rangeInput}, '{talentNameInput}', '{talentDescriptionInput}', '{characterImgInput}', {galaxyIdInput});\r\nGO";
+                $"OUTPUT INSERTED.Id VALUES ('{data.Gender}', '{data.Name}', '{data.Description}', '{data.UnitType}', {data.HP}, {data.DEF}, {data.DMG}, {data.Range}, '{data.TalentName}', '{data.TalentDescription}', '{data.CharacterIMG}', {data.GalaxyId});";
 
             SqlCommand sqlCommand = new SqlCommand(sqlString, connection);
-            SqlDataReader reader = sqlCommand.ExecuteReader();
 
-            while (reader.Read())
-            {
-                int id = reader.GetInt32(0);
-                string gender = reader.GetString(1);
-                string name = reader.GetString(2);
-                string description = reader.GetString(3);
-                string unitType = reader.GetString(4);
-                int hp = reader.GetInt32(5);
-                int def = reader.GetInt32(6);
-                int dmg = reader.GetInt32(7);
-                int range = reader.GetInt32(8);
-                string talentName = reader.GetString(9);
-                string talentDescription = reader.GetString(10);
-                string characterImg = reader.GetString(11);
-                int galaxyId = reader.GetInt32(12);
+            int id = (int)sqlCommand.ExecuteScalar();
 
-                Character character = new Character(id, gender, name, description, unitType, hp, def, dmg, range, talentName, talentDescription, characterImg, galaxyId);
-            }
+            Character character = new Character(id, data.Gender, data.Name, data.Description, data.UnitType, data.HP, data.DEF, data.DMG, data.Range, data.TalentName, data.TalentDescription, data.CharacterIMG, data.GalaxyId);
 
-            //sqlCommand.ExecuteNonQuery();
 
             connection.Close();
 
-            //gets latest added characters ID
-            string sqlStringId = "SELECT SCOPE_IDENTITY() AS [Character_Id];\r\nGO";
 
-            return sqlStringId;
-
-
-            //how to send a body with it
+            return character;
         }
 
-        public int DeleteCharacter(Character charcter)
+        public void DeleteCharacter(int characterId)
         {
-            int characteId = 7;
-
-            string sqlString = $"DELETE FROM Characters WHERE id = '{}';";
+            string sqlString = $"DELETE FROM Characters WHERE id = '{characterId}';";
 
             connection.Open();
             SqlCommand sqlCommand = new SqlCommand(sqlString, connection);
+
             sqlCommand.ExecuteNonQuery();
         }
     }
