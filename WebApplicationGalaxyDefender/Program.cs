@@ -7,6 +7,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddScoped<CharacterService>();
 builder.Services.AddScoped<CharacterRepos>();
 
+builder.Services.AddScoped<GalaxyService>();
+builder.Services.AddScoped<Galaxyrepos>();
+
 builder.Services.AddControllers();
 builder.Services.AddControllers().AddNewtonsoftJson();
 
