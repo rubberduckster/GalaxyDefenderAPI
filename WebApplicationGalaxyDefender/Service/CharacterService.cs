@@ -18,6 +18,11 @@ namespace WebApplicationGalaxyDefender.Service
             return _characterrepos.GetCharacters();
         }
 
+        public Character GetCharacterById(int characterId)
+        {
+            return _characterrepos.GetCharacterById(characterId);
+        }
+
         public Character PostCharacter(CharacterData data)
         {
             return _characterrepos.CreateCharacter(data);
@@ -26,6 +31,11 @@ namespace WebApplicationGalaxyDefender.Service
         public void DeleteCharacter(int characterId) 
         {
             _characterrepos.DeleteCharacter(characterId);
+        }
+
+        public Character PutCharacter(CharacterData data)
+        {
+            return _characterrepos.UpdateCharacter(data);
         }
     }
 }

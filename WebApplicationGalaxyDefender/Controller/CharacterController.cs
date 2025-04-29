@@ -16,14 +16,19 @@ namespace WebApplicationGalaxyDefender.Controllers
         public CharacterController(CharacterService characterService) {
             _characterService = characterService;
         }
-        //GetCharacterById
-        //UpdateCharacter
 
         [HttpGet]
         //Get all characters
         public List<Character> CharactersGet()
         {
             return _characterService.GetCharacters();
+        }
+
+        [HttpGet("{id}")]
+        //Gets character by id
+        public Character CharactersGetById(int id)
+        {
+            return _characterService.GetCharacterById(id);
         }
 
         [HttpPost]
@@ -39,11 +44,24 @@ namespace WebApplicationGalaxyDefender.Controllers
         }
 
         [HttpDelete("{id}")]
+        //Deletes character
         public object DeleteCharacter([FromRoute] int id)
         {
             _characterService.DeleteCharacter(id);
 
             return Results.Ok();
+        }
+
+        [HttpPut]
+        //Udpates character
+        public async Task<Character> CharactersPut()
+        {
+            var reader = new StreamReader(Request.Body);
+            var body = await reader.ReadToEndAsync();
+
+            var model = JsonConvert.DeserializeObject<CharacterData>(body);
+
+            return _characterService.PutCharacter(model);
         }
     }
 }
