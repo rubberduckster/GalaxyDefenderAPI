@@ -23,5 +23,20 @@ namespace WebApplicationGalaxyDefender.Service
         {
             return _galaxyrepos.GetGalaxyById(galaxyId);
         }
+
+        public Galaxy PostGalaxy(GalaxyData data)
+        {
+            return _galaxyrepos.CreateGalaxy(data);
+        }
+
+        public void DeleteGalaxy(int galaxyId)
+        {
+            _galaxyrepos.DeleteGalaxy(galaxyId);
+        }
+
+        public Galaxy PutGalaxy(GalaxyData data)
+        {
+            return _galaxyrepos.UpdateGalaxy(data);
+        }
     }
 }

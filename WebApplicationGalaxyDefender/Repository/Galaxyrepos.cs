@@ -64,5 +64,62 @@ namespace WebApplicationGalaxyDefender.Repository
             connection.Close();
             return null;
         }
+
+        public Galaxy CreateGalaxy(GalaxyData data)
+        {
+
+            string sqlString = "INSERT INTO Galaxies ([Name]) " +
+                $"OUTPUT INSERTED.Id VALUES ('{data.Name}');";
+
+            connection.Open();
+
+            SqlCommand sqlCommand = new SqlCommand(sqlString, connection);
+
+            int id = (int)sqlCommand.ExecuteScalar();
+
+            Galaxy galaxy = new Galaxy(id, data.Name);
+
+
+            connection.Close();
+
+            return galaxy;
+        }
+
+        public void DeleteGalaxy(int GalaxyId)
+        {
+            string sqlString = $"DELETE FROM Galaxies WHERE id = '{GalaxyId}';";
+
+            connection.Open();
+
+            SqlCommand sqlCommand = new SqlCommand(sqlString, connection);
+
+            sqlCommand.ExecuteNonQuery();
+
+            connection.Close();
+        }
+
+        public Galaxy UpdateGalaxy(GalaxyData data)
+        {
+            GetGalaxyById(data.Id);
+
+            Galaxy galaxy = GetGalaxyById(data.Id);
+
+            if (data.Name == null)
+            {
+                data.Name = galaxy.Name; 
+            }
+
+            string sqlString = $"UPDATE Galaxies SET Name = '{data.Name}' WHERE Id = {data.Id}";
+
+            connection.Open();
+
+            SqlCommand sqlCommand = new SqlCommand(sqlString, connection);
+
+            sqlCommand.ExecuteNonQuery();
+
+            connection.Close();
+
+            return galaxy;
+        }
     }
 }
