@@ -19,9 +19,9 @@ namespace WebApplicationGalaxyDefender.Controllers
 
         [HttpGet]
         //Get all characters
-        public List<Character> CharactersGet()
+        public List<Character> CharactersGet([FromQuery] int galaxy)
         {
-            return _characterService.GetCharacters();
+            return _characterService.GetCharacters(galaxy);
         }
 
         [HttpGet("{id}")]

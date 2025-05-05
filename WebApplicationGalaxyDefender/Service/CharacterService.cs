@@ -13,9 +13,9 @@ namespace WebApplicationGalaxyDefender.Service
             _characterrepos = characterrepos;
         }
 
-        public List<Character> GetCharacters()
+        public List<Character> GetCharacters(int? galaxyIdd)
         {
-            return _characterrepos.GetCharacters();
+            return _characterrepos.GetCharacters(galaxyIdd);
         }
 
         public Character GetCharacterById(int characterId)

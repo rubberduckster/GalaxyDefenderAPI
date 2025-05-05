@@ -106,7 +106,7 @@ namespace WebApplicationGalaxyDefender.Repository
 
             if (data.Name == null)
             {
-                data.Name = galaxy.Name; 
+                data.Name = galaxy.Name;
             }
 
             string sqlString = $"UPDATE Galaxies SET Name = '{data.Name}' WHERE Id = {data.Id}";

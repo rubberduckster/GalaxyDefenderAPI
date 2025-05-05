@@ -18,11 +18,11 @@ namespace WebApplicationGalaxyDefender.Repository
         public SqlConnection connection = new SqlConnection("Server=localhost;Database=GalaxyDefenders;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=true");
 
 
-        public List<Character> GetCharacters()
+        public List<Character> GetCharacters(int? galaxyIdd)
         {
             List<Character> characters = new List<Character>();
 
-            string sqlString = "SELECT * FROM Characters;";
+            string sqlString = $"SELECT * FROM Characters WHERE GalaxyId = {galaxyIdd};";
 
             connection.Open();
 
