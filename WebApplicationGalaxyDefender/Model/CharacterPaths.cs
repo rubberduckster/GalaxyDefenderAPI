@@ -14,5 +14,10 @@
         public string TalentName { get; set; }
         public string TalentDescription { get; set; }
         public string CharacterIMG { get; set; }
+
+        public CharacterPaths()
+        {
+
+        }
     }
 }

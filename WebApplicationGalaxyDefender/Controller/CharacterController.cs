@@ -19,7 +19,7 @@ namespace WebApplicationGalaxyDefender.Controllers
 
         [HttpGet]
         //Get all characters
-        public List<Character> CharactersGet([FromQuery] int galaxy)
+        public List<Character> CharactersGet([FromQuery] int? galaxy)
         {
             return _characterService.GetCharacters(galaxy);
         }
@@ -29,6 +29,12 @@ namespace WebApplicationGalaxyDefender.Controllers
         public Character CharactersGetById(int id)
         {
             return _characterService.GetCharacterById(id);
+        }
+
+        [HttpGet("{charId}/path")]
+        public PathData[] GetCharacterPaths(int charId)
+        {
+
         }
 
         [HttpPost]

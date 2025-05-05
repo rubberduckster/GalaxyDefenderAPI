@@ -18,11 +18,16 @@ namespace WebApplicationGalaxyDefender.Repository
         public SqlConnection connection = new SqlConnection("Server=localhost;Database=GalaxyDefenders;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=true");
 
 
-        public List<Character> GetCharacters(int? galaxyIdd)
+        public List<Character> GetCharacters(int? galaxyId)
         {
             List<Character> characters = new List<Character>();
 
-            string sqlString = $"SELECT * FROM Characters WHERE GalaxyId = {galaxyIdd};";
+            string sqlString = "SELECT * FROM Characters";
+
+            if (galaxyId != null)
+            {
+                sqlString += $" WHERE GalaxyId = {galaxyId};";
+            }
 
             connection.Open();
 
@@ -43,9 +48,9 @@ namespace WebApplicationGalaxyDefender.Repository
                 string talentName = reader.GetString(9);
                 string talentDescription = reader.GetString(10);
                 string characterImg = reader.GetString(11);
-                int galaxyId = reader.GetInt32(12);
+                int _galaxyId = reader.GetInt32(12);
 
-                Character character = new Character(id, gender, name, description, unitType, hp, def, dmg, range, talentName, talentDescription, characterImg, galaxyId);
+                Character character = new Character(id, gender, name, description, unitType, hp, def, dmg, range, talentName, talentDescription, characterImg, _galaxyId);
                 characters.Add(character);
             }
 
@@ -74,6 +79,37 @@ namespace WebApplicationGalaxyDefender.Repository
 
             connection.Close();
             return null;
+        }
+
+        public PathData[] GetPaths(int charId)
+        {
+            PathData[] paths = new PathData[3];
+
+            string sqlstring = $"SELECT * FROM Paths WHERE id = {charId}";
+
+            connection.Open();
+
+            SqlCommand sqlCommand = new SqlCommand( sqlstring, connection);
+            SqlDataReader reader = sqlCommand.ExecuteReader();
+
+            while (reader.Read())
+            {
+                int id = reader.GetInt32(0);
+                string gender = reader.GetString(1);
+                string name = reader.GetString(2);
+                string description = reader.GetString(3);
+                string unitType = reader.GetString(4);
+                int hp = reader.GetInt32(5);
+                int def = reader.GetInt32(6);
+                int dmg = reader.GetInt32(7);
+                int range = reader.GetInt32(8);
+                string talentName = reader.GetString(9);
+                string talentDescription = reader.GetString(10);
+                string characterImg = reader.GetString(11);
+                int _galaxyId = reader.GetInt32(12);
+
+                PathData path = new PathData();
+            }
         }
 
         
