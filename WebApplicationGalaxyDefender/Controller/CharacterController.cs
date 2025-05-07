@@ -32,9 +32,9 @@ namespace WebApplicationGalaxyDefender.Controllers
         }
 
         [HttpGet("{charId}/path")]
-        public PathData[] GetCharacterPaths(int charId)
+        public CharacterPaths[] GetCharacterPaths(int charId)
         {
-
+            return _characterService.GetCharacterPaths(charId);
         }
 
         [HttpPost]

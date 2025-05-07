@@ -78,14 +78,16 @@ namespace WebApplicationGalaxyDefender.Repository
             }
 
             connection.Close();
+
             return null;
         }
 
-        public PathData[] GetPaths(int charId)
+        public CharacterPaths[] GetPaths(int charId)
         {
-            PathData[] paths = new PathData[3];
+            int index = 0;
+            CharacterPaths[] paths = new CharacterPaths[9];
 
-            string sqlstring = $"SELECT * FROM Paths WHERE id = {charId}";
+            string sqlstring = $"SELECT * FROM Paths WHERE CharacterId = {charId}";
 
             connection.Open();
 
@@ -95,10 +97,10 @@ namespace WebApplicationGalaxyDefender.Repository
             while (reader.Read())
             {
                 int id = reader.GetInt32(0);
-                string gender = reader.GetString(1);
-                string name = reader.GetString(2);
-                string description = reader.GetString(3);
-                string unitType = reader.GetString(4);
+                int tier = reader.GetInt32(1);
+                string pathName = reader.GetString(2);
+                string name = reader.GetString(3);
+                string description = reader.GetString(4);
                 int hp = reader.GetInt32(5);
                 int def = reader.GetInt32(6);
                 int dmg = reader.GetInt32(7);
@@ -106,10 +108,16 @@ namespace WebApplicationGalaxyDefender.Repository
                 string talentName = reader.GetString(9);
                 string talentDescription = reader.GetString(10);
                 string characterImg = reader.GetString(11);
-                int _galaxyId = reader.GetInt32(12);
+                int characterId = reader.GetInt32(12);
 
-                PathData path = new PathData();
+                CharacterPaths path = new CharacterPaths(id, tier, name, pathName, description, hp, def, dmg, range, talentName, talentDescription, characterImg, characterId);
+                paths[index] = path;
+                index++;
             }
+
+            connection.Close();
+
+            return paths;
         }
 
         

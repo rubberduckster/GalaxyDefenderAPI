@@ -23,6 +23,11 @@ namespace WebApplicationGalaxyDefender.Service
             return _characterrepos.GetCharacterById(characterId);
         }
 
+        public CharacterPaths[] GetCharacterPaths(int charId)
+        {
+            return _characterrepos.GetPaths(charId);
+        }
+
         public Character PostCharacter(CharacterData data)
         {
             return _characterrepos.CreateCharacter(data);
