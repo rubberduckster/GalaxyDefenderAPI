@@ -13,10 +13,11 @@
         public int Range { get; set; }
         public string TalentName { get; set; }
         public string TalentDescription { get; set; }
-        public string CharacterIMG { get; set; }
+        public string FemIMG { get; set; }
+        public string MascIMG { get; set; }
         public int CharacterId { get; set; }
 
-        public CharacterPaths(int id, int tier, string pathName, string name, string description, int hp, int def, int dmg, int range, string talentName, string talentDescription, string characterImg, int characterId)
+        public CharacterPaths(int id, int tier, string pathName, string name, string description, int hp, int def, int dmg, int range, string talentName, string talentDescription, string femImg, string mascImg, int characterId)
         {
             Id = id;
             Tier = tier;
@@ -29,7 +30,8 @@
             Range = range;
             TalentName = talentName;
             TalentDescription = talentDescription;
-            CharacterIMG = characterImg;
+            FemIMG = femImg;
+            MascIMG = mascImg;
             CharacterId = characterId;
         }
     }

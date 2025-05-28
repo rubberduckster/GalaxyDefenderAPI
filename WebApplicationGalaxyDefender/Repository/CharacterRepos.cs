@@ -10,13 +10,11 @@ namespace WebApplicationGalaxyDefender.Repository
 {
     public interface ICharacterRepos
     {
-
     }
 
     public class CharacterRepos
     {
         public SqlConnection connection = new SqlConnection("Server=localhost;Database=GalaxyDefenders;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=true");
-
 
         public List<Character> GetCharacters(int? galaxyId)
         {
@@ -37,20 +35,20 @@ namespace WebApplicationGalaxyDefender.Repository
             while (reader.Read())
             {
                 int id = reader.GetInt32(0);
-                string gender = reader.GetString(1);
-                string name = reader.GetString(2);
-                string description = reader.GetString(3);
-                string unitType = reader.GetString(4);
-                int hp = reader.GetInt32(5);
-                int def = reader.GetInt32(6);
-                int dmg = reader.GetInt32(7);
-                int range = reader.GetInt32(8);
-                string talentName = reader.GetString(9);
-                string talentDescription = reader.GetString(10);
-                string characterImg = reader.GetString(11);
+                string name = reader.GetString(1);
+                string description = reader.GetString(2);
+                string unitType = reader.GetString(3);
+                int hp = reader.GetInt32(4);
+                int def = reader.GetInt32(5);
+                int dmg = reader.GetInt32(6);
+                int range = reader.GetInt32(7);
+                string talentName = reader.GetString(8);
+                string talentDescription = reader.GetString(9);
+                string femImg = reader.GetString(10);
+                string mascImg = reader.GetString(11);
                 int _galaxyId = reader.GetInt32(12);
 
-                Character character = new Character(id, gender, name, description, unitType, hp, def, dmg, range, talentName, talentDescription, characterImg, _galaxyId);
+                Character character = new Character(id, name, description, unitType, hp, def, dmg, range, talentName, talentDescription, femImg, mascImg, _galaxyId);
                 characters.Add(character);
             }
 
@@ -59,7 +57,7 @@ namespace WebApplicationGalaxyDefender.Repository
             return characters;
         }
 
-        public Character GetCharacterById(int characterId) 
+        public Character GetCharacterById(int characterId)
         {
             string sqlString = $"SELECT * FROM Characters WHERE Id = {characterId}";
 
@@ -72,7 +70,7 @@ namespace WebApplicationGalaxyDefender.Repository
 
             if (reader.Read())
             {
-                result = new Character((int)reader["Id"], reader["Gender"].ToString(), reader["Name"].ToString(), reader["Description"].ToString(), reader["UnitType"].ToString(), (int)reader["HP"], (int)reader["DEF"], (int)reader["DMG"], (int)reader["Range"], reader["TalentName"].ToString(), reader["TalentDescription"].ToString(), reader["CharacterIMG"].ToString(), (int)reader["GalaxyId"]);
+                result = new Character((int)reader["Id"], reader["Name"].ToString(), reader["Description"].ToString(), reader["UnitType"].ToString(), (int)reader["HP"], (int)reader["DEF"], (int)reader["DMG"], (int)reader["Range"], reader["TalentName"].ToString(), reader["TalentDescription"].ToString(), reader["FemIMG"].ToString(), reader["MascIMG"].ToString(), (int)reader["GalaxyId"]);
                 connection.Close();
                 return result;
             }
@@ -91,7 +89,7 @@ namespace WebApplicationGalaxyDefender.Repository
 
             connection.Open();
 
-            SqlCommand sqlCommand = new SqlCommand( sqlstring, connection);
+            SqlCommand sqlCommand = new SqlCommand(sqlstring, connection);
             SqlDataReader reader = sqlCommand.ExecuteReader();
 
             while (reader.Read())
@@ -107,10 +105,12 @@ namespace WebApplicationGalaxyDefender.Repository
                 int range = reader.GetInt32(8);
                 string talentName = reader.GetString(9);
                 string talentDescription = reader.GetString(10);
-                string characterImg = reader.GetString(11);
-                int characterId = reader.GetInt32(12);
+                string femImg = reader.GetString(11);
+                string mascImg = reader.GetString(12);
+                string characterImg = reader.GetString(13);
+                int characterId = reader.GetInt32(14);
 
-                CharacterPaths path = new CharacterPaths(id, tier, name, pathName, description, hp, def, dmg, range, talentName, talentDescription, characterImg, characterId);
+                CharacterPaths path = new CharacterPaths(id, tier, name, pathName, description, hp, def, dmg, range, talentName, talentDescription, femImg, mascImg, characterId);
                 paths[index] = path;
                 index++;
             }
@@ -120,12 +120,10 @@ namespace WebApplicationGalaxyDefender.Repository
             return paths;
         }
 
-        
         public Character CreateCharacter(CharacterData data)
         {
-
-            string sqlString = "INSERT INTO Characters ([Gender], [Name], [Description], [UnitType], [HP], [DEF], [DMG], [Range], [TalentName], [TalentDescription], [CharacterIMG], [GalaxyId]) " +
-                $"OUTPUT INSERTED.Id VALUES ('{data.Gender}', '{data.Name}', '{data.Description}', '{data.UnitType}', {data.HP}, {data.DEF}, {data.DMG}, {data.Range}, '{data.TalentName}', '{data.TalentDescription}', '{data.CharacterIMG}', {data.GalaxyId});";
+            string sqlString = "INSERT INTO Characters ([Name], [Description], [UnitType], [HP], [DEF], [DMG], [Range], [TalentName], [TalentDescription], [FemIMG], [MascIMG], [GalaxyId]) " +
+                $"OUTPUT INSERTED.Id VALUES ('{data.Name}', '{data.Description}', '{data.UnitType}', {data.HP}, {data.DEF}, {data.DMG}, {data.Range}, '{data.TalentName}', '{data.TalentDescription}', '{data.FemIMG}', '{data.MascIMG}', {data.GalaxyId});";
 
             connection.Open();
 
@@ -133,8 +131,7 @@ namespace WebApplicationGalaxyDefender.Repository
 
             int id = (int)sqlCommand.ExecuteScalar();
 
-            Character character = new Character(id, data.Gender, data.Name, data.Description, data.UnitType, data.HP, data.DEF, data.DMG, data.Range, data.TalentName, data.TalentDescription, data.CharacterIMG, data.GalaxyId);
-
+            Character character = new Character(id, data.Name, data.Description, data.UnitType, data.HP, data.DEF, data.DMG, data.Range, data.TalentName, data.TalentDescription, data.FemIMG, data.MascIMG, data.GalaxyId);
 
             connection.Close();
 
@@ -160,10 +157,6 @@ namespace WebApplicationGalaxyDefender.Repository
 
             Character character = GetCharacterById(data.Id);
 
-            if (data.Gender == null)
-            {
-                data.Gender = character.Gender;
-            }
             if (data.Name == null)
             {
                 data.Name = character.Name;
@@ -192,16 +185,20 @@ namespace WebApplicationGalaxyDefender.Repository
             {
                 data.TalentDescription = character.TalentDescription;
             }
-            if (data.CharacterIMG == null)
+            if (data.FemIMG == null)
             {
-                data.CharacterIMG = character.CharacterIMG;
+                data.FemIMG = character.FemIMG;
+            }
+            if (data.MascIMG == null)
+            {
+                data.MascIMG = character.MascIMG;
             }
             if (data.GalaxyId == 0)
             {
                 data.GalaxyId = character.GalaxyId;
             }
 
-            string sqlString = $"UPDATE Characters SET Gender = '{data.Gender}', Name = '{data.Name}', Description = '{data.Description}', UnitType = '{data.UnitType}', HP = {data.HP}, DEF = {data.DEF}, DMG = {data.DMG}, Range = {data.Range}, TalentName = '{data.TalentName}', TalentDescription = '{data.TalentDescription}', CharacterIMG = '{data.CharacterIMG}', GalaxyId = {data.GalaxyId} WHERE Id = {data.Id}";
+            string sqlString = $"UPDATE Characters SET Name = '{data.Name}', Description = '{data.Description}', UnitType = '{data.UnitType}', HP = {data.HP}, DEF = {data.DEF}, DMG = {data.DMG}, Range = {data.Range}, TalentName = '{data.TalentName}', TalentDescription = '{data.TalentDescription}', FemIMG = '{data.FemIMG}', MascIMG = '{data.MascIMG}', GalaxyId = {data.GalaxyId} WHERE Id = {data.Id}";
 
             connection.Open();
 

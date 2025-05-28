@@ -3,6 +3,7 @@ using WebApplicationGalaxyDefender.Model;
 using WebApplicationGalaxyDefender.Service;
 using WebApplicationGalaxyDefender.DataModels;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebApplicationGalaxyDefender.Controllers
 {
@@ -37,6 +38,7 @@ namespace WebApplicationGalaxyDefender.Controllers
             return _characterService.GetCharacterPaths(charId);
         }
 
+        [Authorize]
         [HttpPost]
         //Make a Character
         public async Task<Character> CharactersPost()
@@ -49,6 +51,7 @@ namespace WebApplicationGalaxyDefender.Controllers
             return _characterService.PostCharacter(model);
         }
 
+        [Authorize]
         [HttpDelete("{id}")]
         //Deletes character
         public object DeleteCharacter([FromRoute] int id)
@@ -58,6 +61,7 @@ namespace WebApplicationGalaxyDefender.Controllers
             return Results.Ok();
         }
 
+        [Authorize]
         [HttpPut]
         //Udpates character
         public async Task<Character> CharactersPut()

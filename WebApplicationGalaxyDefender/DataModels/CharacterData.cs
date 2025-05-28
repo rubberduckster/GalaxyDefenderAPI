@@ -1,5 +1,3 @@
-
-
 namespace WebApplicationGalaxyDefender.DataModels
 {
     public class CharacterData
@@ -15,7 +13,8 @@ namespace WebApplicationGalaxyDefender.DataModels
         public int Range { get; set; }
         public string TalentName { get; set; }
         public string TalentDescription { get; set; }
-        public string CharacterIMG { get; set; }
+        public string FemIMG { get; set; }
+        public string MascIMG { get; set; }
         public int GalaxyId { get; set; }
     }
 }
