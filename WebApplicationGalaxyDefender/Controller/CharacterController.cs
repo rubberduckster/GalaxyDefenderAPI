@@ -38,7 +38,7 @@ namespace WebApplicationGalaxyDefender.Controllers
             return _characterService.GetCharacterPaths(charId);
         }
 
-        //[Authorize]
+        [Authorize(Policy = "AdminOnly")]
         [HttpPost]
         //Make a Character
         public async Task<Character> CharactersPost()
@@ -51,7 +51,7 @@ namespace WebApplicationGalaxyDefender.Controllers
             return _characterService.PostCharacter(model);
         }
 
-        //[Authorize]
+        [Authorize(Policy = "AdminOnly")]
         [HttpDelete("{id}")]
         //Deletes character
         public object DeleteCharacter([FromRoute] int id)
@@ -61,7 +61,7 @@ namespace WebApplicationGalaxyDefender.Controllers
             return Results.Ok();
         }
 
-        //[Authorize]
+        [Authorize(Policy = "AdminOnly")]
         [HttpPut]
         //Udpates character
         public async Task<Character> CharactersPut()

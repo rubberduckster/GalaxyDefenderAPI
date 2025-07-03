@@ -29,17 +29,25 @@ builder.Services.AddCors(options =>
     });
 });
 
-/*builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])), //Use [Authorize] over the endpoints you wanna protect
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Secret"])), //Use [Authorize] over the endpoints you wanna protect
             ValidateIssuer = false,
             ValidateAudience = false
         };
-    });*/
+    });
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("AdminOnly", policy => //Add (Policy = AdminOnly) in the  [Authorize]
+    {
+        policy.RequireClaim("isAdmin", "1");
+    });
+});
 
 var app = builder.Build();
 app.MapControllers();
